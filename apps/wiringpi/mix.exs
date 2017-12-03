@@ -34,8 +34,6 @@ defmodule Wiringpi.Mixfile do
 end
 
 defmodule Mix.Tasks.Compile.Make do
-  @shortdoc "Compiles helper in c_src"
- 
   def run(_) do
     {result, _error_code} = System.cmd("make", [], stderr_to_stdout: true)
     Mix.shell.info result
