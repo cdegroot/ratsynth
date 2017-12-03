@@ -10,6 +10,7 @@ defmodule Wiringpi.Mixfile do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.5",
+      compilers: [:make, :elixir, :app],
       start_permanent: Mix.env == :prod,
       deps: deps()
     ]
@@ -31,3 +32,15 @@ defmodule Wiringpi.Mixfile do
     ]
   end
 end
+
+defmodule Mix.Tasks.Compile.Make do
+  @shortdoc "Compiles helper in c_src"
+ 
+  def run(_) do
+    {result, _error_code} = System.cmd("make", [], stderr_to_stdout: true)
+    Mix.shell.info result
+ 
+    :ok
+  end
+end
+
