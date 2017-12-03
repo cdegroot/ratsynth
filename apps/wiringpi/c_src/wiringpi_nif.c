@@ -8,7 +8,7 @@
 #include <wiringPiI2C.h>
 
 // int wiringPiI2CSetup (int devId) ;
-static ERL_NIF_TERM _open(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv[]) {
+static ERL_NIF_TERM elixir_wiringpi_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   int devId;
   int fd;
 
@@ -20,7 +20,7 @@ static ERL_NIF_TERM _open(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv[]) {
 }
 
 // int wiringPiI2CWrite (int fd, int data) ;
-static ERL_NIF_TERM _write(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv[]) {
+static ERL_NIF_TERM elixir_wiringpi_write(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   int fd;
   int data;
   int result;
@@ -34,7 +34,7 @@ static ERL_NIF_TERM _write(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv[]) {
 }
 
 // int wiringPiI2CWriteReg8 (int fd, int reg, int data) ;
-static ERL_NIF_TERM _write_reg8(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv[]) {
+static ERL_NIF_TERM elixir_wiringpi_write_reg8(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   int fd;
   int reg;
   int data;
@@ -50,7 +50,7 @@ static ERL_NIF_TERM _write_reg8(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv
 }
 
 // int wiringPiI2CWriteReg16 (int fd, int reg, int data) ;
-static ERL_NIF_TERM _write_reg16(ErlNifEnv* env, int arc, const ERL_NIF_TERM argv[]) {
+static ERL_NIF_TERM elixir_wiringpi_write_reg16(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   int fd;
   int reg;
   int data;
@@ -65,4 +65,12 @@ static ERL_NIF_TERM _write_reg16(ErlNifEnv* env, int arc, const ERL_NIF_TERM arg
   return enif_make_int(env, fd);
 }
 
-// For now, we don't need the read functions.
+static ErlNifFunc nif_funcs[] = {
+  {"open", 1, elixir_wiringpi_open},
+  {"write", 2, elixir_wiringpi_write},
+  {"write_reg8", 3, elixir_wiringpi_write_reg8},
+  {"write_reg16", 3, elixir_wiringpi_write_reg16}
+
+};
+
+ERL_NIF_INIT(Elixir.WiringPi, nif_funcs, NULL, NULL, NULL, NULL)
